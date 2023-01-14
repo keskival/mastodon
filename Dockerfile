@@ -75,10 +75,17 @@ RUN apt-get update && \
         libyaml-0-2 \
         file \
         ca-certificates \
+        nano \
         tzdata \
         libreadline8 \
+        python3 \
+        python3-pip \
         tini && \
     ln -s /opt/mastodon /mastodon
+
+RUN pip3 install --no-cache-dir --break-system-packages  argparse Mastodon.py sitemap_python
+RUN mkdir /opt/sitemap
+COPY sitemap/mastodon-sitemap.py /opt/sitemap/mastodon-sitemap.py
 
 # Note: no, cleaning here since Debian does this automatically
 # See the file /etc/apt/apt.conf.d/docker-clean within the Docker image's filesystem

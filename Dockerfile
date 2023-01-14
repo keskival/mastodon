@@ -81,6 +81,31 @@ SHELL ["/bin/bash", "-o", "pipefail", "-o", "errexit", "-c"]
 ARG TARGETPLATFORM
 
 RUN echo "Target platform is $TARGETPLATFORM"
+# Ignoring these here since we don't want to pin any versions and the Debian image removes apt-get content after use
+# hadolint ignore=DL3008,DL3009
+RUN apt-get update && \
+    apt-get -y --no-install-recommends install whois \
+        wget \
+        procps \
+        libssl3 \
+        libpq5 \
+        imagemagick \
+        ffmpeg \
+        libjemalloc2 \
+        libicu72 \
+        libidn12 \
+        libyaml-0-2 \
+        file \
+        ca-certificates \
+        nano \
+        tzdata \
+        libreadline8 \
+        python3 \
+        python3-pip \
+        tini
+
+# Note: no, cleaning here since Debian does this automatically
+# See the file /etc/apt/apt.conf.d/docker-clean within the Docker image's filesystem
 
 RUN \
   # Remove automatic apt cache Docker cleanup scripts
@@ -95,6 +120,14 @@ RUN \
 
 # Set /opt/mastodon as working directory
 WORKDIR /opt/mastodon
+
+RUN pip3 install --no-cache-dir --break-system-packages  argparse Mastodon.py sitemap_python
+RUN mkdir /opt/sitemap
+RUN mkdir /opt/mastodon/tmp
+COPY sitemap/mastodon-sitemap.py /opt/sitemap/mastodon-sitemap.py
+RUN chown -R 991:991 /opt/mastodon
+RUN chmod -R a+rw /opt/mastodon/tmp
+
 
 # hadolint ignore=DL3008,DL3005
 RUN \

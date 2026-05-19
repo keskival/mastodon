@@ -42,9 +42,9 @@ ARG RUBY_YJIT_ENABLE="1"
 # Timezone used by the Docker container and runtime, change with [--build-arg TZ=Europe/Berlin]
 ARG TZ="Etc/UTC"
 # Linux UID (user id) for the mastodon user, change with [--build-arg UID=1234]
-ARG UID="991"
+ARG UID="1000"
 # Linux GID (group id) for the mastodon user, change with [--build-arg GID=1234]
-ARG GID="991"
+ARG GID="1000"
 
 # Apply Mastodon build options based on options above
 ENV \

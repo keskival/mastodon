@@ -115,17 +115,6 @@ COPY sitemap/mastodon-sitemap.py /opt/sitemap/mastodon-sitemap.py
 # Note: no, cleaning here since Debian does this automatically
 # See the file /etc/apt/apt.conf.d/docker-clean within the Docker image's filesystem
 
-RUN \
-  # Remove automatic apt cache Docker cleanup scripts
-  rm -f /etc/apt/apt.conf.d/docker-clean; \
-  # Sets timezone
-  echo "${TZ}" > /etc/localtime; \
-  # Creates mastodon user/group and sets home directory
-  groupadd -g "${GID}" mastodon; \
-  useradd -l -u "${UID}" -g "${GID}" -m -d /opt/mastodon mastodon; \
-  # Creates /mastodon symlink to /opt/mastodon
-  ln -s /opt/mastodon /mastodon;
-
 # Set /opt/mastodon as working directory
 WORKDIR /opt/mastodon
 

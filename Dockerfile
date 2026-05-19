@@ -91,7 +91,7 @@ RUN apt-get update && \
         imagemagick \
         ffmpeg \
         libjemalloc2 \
-        libicu72 \
+        libicu76 \
         libidn12 \
         libyaml-0-2 \
         file \

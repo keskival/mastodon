@@ -145,6 +145,7 @@ class REST::InstanceSerializer < ActiveModel::Serializer
 
   def wrapstodon
     AnnualReport.current_campaign
+  end
 
   def max_toot_chars
     20000

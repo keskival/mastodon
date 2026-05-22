@@ -42,9 +42,9 @@ ARG RUBY_YJIT_ENABLE="1"
 # Timezone used by the Docker container and runtime, change with [--build-arg TZ=Europe/Berlin]
 ARG TZ="Etc/UTC"
 # Linux UID (user id) for the mastodon user, change with [--build-arg UID=1234]
-ARG UID="991"
+ARG UID="1000"
 # Linux GID (group id) for the mastodon user, change with [--build-arg GID=1234]
-ARG GID="991"
+ARG GID="1000"
 
 # Apply Mastodon build options based on options above
 ENV \
@@ -115,16 +115,6 @@ COPY sitemap/mastodon-sitemap.py /opt/sitemap/mastodon-sitemap.py
 # Note: no, cleaning here since Debian does this automatically
 # See the file /etc/apt/apt.conf.d/docker-clean within the Docker image's filesystem
 
-RUN \
-  # Remove automatic apt cache Docker cleanup scripts
-  rm -f /etc/apt/apt.conf.d/docker-clean; \
-  # Sets timezone
-  echo "${TZ}" > /etc/localtime; \
-  # Creates mastodon user/group and sets home directory
-  groupadd -g "${GID}" mastodon; \
-  useradd -l -u "${UID}" -g "${GID}" -m -d /opt/mastodon mastodon; \
-  # Creates /mastodon symlink to /opt/mastodon
-  ln -s /opt/mastodon /mastodon;
 
 # Set /opt/mastodon as working directory
 WORKDIR /opt/mastodon
